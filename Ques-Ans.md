@@ -581,11 +581,11 @@ The semaphore is an abstract data store that is used to control resource accesse
 
 The little endian memory representation allocates the least address to the least significant bit and the big endian is where the highest significant bit takes up the least addressed memory space. We can identify the system’s usage by defining an integer value and accessing it as a character.
 
-'''
+```
 int p=0x2; 
 if(* (char *) &p == 0x2) printf (“little endiann”); 
 else printf (“big endiann”);
-'''
+```
 
 # What Is A 'volatile' Variable?
 
