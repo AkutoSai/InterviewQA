@@ -494,3 +494,119 @@ The question is not at all advanced but mostly ignored in generic interviews. Al
 1.	Arguments are passed using registers rather then pushing into stack. For windows the registers used for arguments from left to right is RCX, RDX, R8,R9 etc. For linux the pattern is RDI, RSI, RDX, RCX etc.
 2.	Cleaning of stack is done by caller just like cdecl calling convention.
 3.	Stack aligned in 16 bytes boundary.
+
+# Explain Some Assembly Controls?
+
+1. BRA Branch; Motorola 680×0, Motorola 68300; short (16 bit) unconditional branch relative to the current program counter.
+2. JMP Jump; Motorola 680×0, Motorola 68300; unconditional jump (any valid effective addressing mode other than data register).
+3. JMP Jump; Intel 80×86; unconditional jump (near [relative displacement from PC] or far; direct or indirect [based on contents of general purpose register, memory location, or indexed]).
+4. JMP Jump; MIX; unconditional jump to location M; J-register loaded with the address of the instruction which would have been next if the jump had not been taken.
+5. JSJ Jump, Save J-register; MIX; unconditional jump to location M; J-register unchanged.
+6. Jcc Jump Conditionally; Intel 80×86; conditional jump (near [relative displacement from PC] or far; direct or indirect [based on contents of general purpose register, memory location, or indexed]) based on a tested condition: JA/JNBE, JAE/JNB, JB/JNAE, JBE/JNA, JC, JE/JZ, JNC, JNE/JNZ, JNP/JPO, JP/JPE, JG/JNLE, JGE/JNL, JL/JNGE, JLE/JNG, JNO, JNS, JO, JS.
+7. Bcc Branch Conditionally; Motorola 680×0, Motorola 68300; short (16 bit) conditional branch relative to the current program counter based on a tested condition: BCC, BCS, BEQ, BGE, BGT, BHI, BLE, BLS, BLT, BMI, BNE, BPL, BVC, BVS.
+8. JOV Jump on Overflow; MIX; conditional jump to location M if overflow toggle is on; if jump occurs, J-register loaded with the address of the instruction which would have been next if the jump had not been taken.
+
+# What Is Assembly Condition Codes?
+
+Condition codes are the list of possible conditions that can be tested during conditional instructions. Typical conditional instructions include: conditional branches, conditional jumps, and conditional subroutine calls. Some processors have a few additional data related conditional instructions, and some processors make every instruction conditional. Not all condition codes available for a processor will be implemented for every conditional instruction.
+
+# What Is Data Movement?
+
+Data movement instructions move data from one location to another. The source and destination locations are determined by the addressing modes, and can be registers or memory. Some processors have different instructions for loading registers and storing to memory, while other processors have a single instruction with flexible addressing modes.
+
+# What Are Kinds Of Processors?
+
+Processors can broadly be divided into the categories of: CISC, RISC, hybrid, and special purpose.
+
+C++ Tutorial
+
+# What Are Assembly Attributes?
+
+Attributes are declarative tags in code that insert additional metadata into an assembly
+
+C Interview Questions
+
+# What Are The Types Of Assemblies?
+
+1. Private Assemblies
+2. Shared Assemblies
+
+# Explain An Intermediate Language?
+
+Assemblies are made up of IL code modules and the metadata that describes them. Although programs may be compiled via an IDE or the command line, in fact, they are simply translated into IL, not machine code. The actual machine code is not generated until the function that requires it is called.
+
+# What Is The Maximum Number Of Classes That Can Be Contained In A Dll File?
+
+There is no limit to the maximum number of classes that can be contained in a DLL file.
+
+# Can One Dll File Contain The Compiled Code Of More Than One .net Language?
+
+No, a DLL file can contain the compiled code of only one programming language.
+
+# What Are The Different Types Of Assemblies? Explain Them In Detail
+
+
+1. Private Assembly - Refers to the assembly that is used by a single application. Private assemblies are kept in a local folder in which the client application has been installed.
+
+2. Public or Shared Assembly - Refers to the assembly that is allowed to be shared by multiple applications. A shared assembly must reside in Global Assembly Cache (GAC) with a strong name assigned to it.
+
+For example, imagine that you have created a DLL containing information about your business logic. This DLL can be used by your client application. In order to run the client application, the DLL must be included in the same folder in which the client application has been installed. This makes the assembly private to your application. Now suppose that the DLL needs to be reused in different applications. Therefore, instead of copying the DLL in every client application folder, it can be placed in the global assembly cache using the GAC tool. These assemblies are called shared assemblies.
+
+# Name The Different Components Of An Assembly?
+
+1. Assembly manifest
+2. MSIL source code
+3. Type metadata
+4. Resources
+
+# What Is Difference Between Using A Macro And Inline Function?
+
+The macro are just symbolic representations and cannot contain data type differentiations within the parameters that we give. The inline functions can have the data types too defined as a part of them. The disadvantage in using both is that the inclusion of condition checks may lead to increase in code space if the function is called many times.
+
+# What Is A Semaphore? What Are The Different Types Of Semaphore?
+
+The semaphore is an abstract data store that is used to control resource accesses across the various threads of execution or across different processes. There are two types of semaphores:
+
+1. The binary semaphore which can take only 0,1 values. (used when there is contention for a single resource entity). 
+2. The counting semaphore which can take incremental values to certain limit (used when number of resources is limited).
+
+# Explain The Properties Of A Object Oriented Programming Language.
+
+1. Encapsulation: The data that are related to the specific object are contained inside the object structure and hidden from the other entities of the environment.  
+2. Polymorphism: The mechanism by which the same pointer can refer to different types of objects, which are basically linked by some generic commonality.
+3. Abstraction: Hiding the data and implementation details from the real objects. The framework of reference is still present to be used by the other objects.
+4. Inheritance: The way to take out the common features and have them as separate object entities only to be reused by the other objects in a modular fashion.
+
+# What Are Little Endian And Big Endian Types Of Storage? How Can You Identify Which Type Of Allocation A System Follows?
+
+The little endian memory representation allocates the least address to the least significant bit and the big endian is where the highest significant bit takes up the least addressed memory space. We can identify the system’s usage by defining an integer value and accessing it as a character.
+
+'''
+int p=0x2; 
+if(* (char *) &p == 0x2) printf (“little endiann”); 
+else printf (“big endiann”);
+'''
+
+# What Is A 'volatile' Variable?
+
+Volatile is a keyword to specify the compiler that this variable value can change any time, so compiler should always read its value from its address, and not to use temporary registers to store its value and use in later part of the code. This is especially important to handle the memory mapped registers which are mapped as some variables or structures in embedded systems, such as hardware status registers etc, whose value can be changed anytime, depending on the hardware state.
+
+1. Hardware registers in peripherals (for example, status registers)
+2. Non-automatic variables referenced within an interrupt service routine
+3. Variables shared by multiple tasks in a multi-threaded application
+
+# What Is The Difference Between .exe And .dll Files?
+
+EXE:
+
+1. It is an executable file, which can be run independently.
+2. EXE is an out-process component, which means that it runs in a separate process.
+3. It cannot be reused in an application.
+4. It has a main function.
+
+DLL:
+
+1. It is Dynamic Link Library that is used as a part of EXE or other DLLs. It cannot be run independently.
+2. It runs in the application process memory, so it is called as in-process component.
+3. It can be reused in an application.
+4. It does not have a main function.
