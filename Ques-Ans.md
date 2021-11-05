@@ -159,12 +159,14 @@ Scan the software file with an antivirus program to see if it contains any hidde
 In OptionalHeader.DataDirectory, the second structure in the array points to _IMAGE_IMPORT_DESCRIPTOR.
 _IMAGE_IMPORT_DESCRIPTOR is a structure that is present for each dll that needed to import. At 0x0c in import descriptor name field value set to name of dll (eg kernel32.dll).
 Here OriginalFirstThunk points to Import Names table and FirstThunk points to IAT. INT points to array of names of functions (_IMAGE_IMPORT_BY_NAME) and IAT points to array of address of functions (_IMAGE_THUNK_DATA).
+
 INT points to names of function whereas IAT points to address of function in the memory.
 
 
 # Why we have two different Imports table(IAT and INT) but they both point to same structure in disk?
 
 Initially when the image is not loaded in the memory the loader doesn't know the address of functions so it point IAT to the INT only.  But when image is loaded in memory it resolve the address of functions using INT entries and point IAT to the address.
+
 IAT points to its own structure in Memory
 
 
@@ -211,7 +213,7 @@ Types of calling conventions:
 4.	THISCALL
 
 In Stdcall arguments of a function is pushed in stack from right-to-left. And cleaning of stack is done by callee( who has been called) function.
-In Cdecl arguments of a function is pushed in stack from left-to-right. And cleaning of stack is done by caller( who is calling) function. Check here for more info on this.
+In Cdecl arguments of a function is pushed in stack from left-to-right. And cleaning of stack is done by caller( who is calling) function.
 
 
 # What calling convention we generally find in Windows C++ programs?
@@ -222,11 +224,16 @@ Windows program by default use StdCall but inside your IDE or compiler we have o
 # What is xor instruction do? Where it is used mostly in x86/64?
 
 xor (exclusive or) gives output 0 if bits are same otherwise 0.
+
 1.	1 xor 1 = 0
 2.	0 xor 0 = 0
 3.	1 xor 0 = 1
 4.	0 xor 1 = 1
-xor is mostly used in intel x86/64 to set a register value to 0. For example      xor eax, eax will 0 the eax register.
+5.	
+xor is mostly used in intel x86/64 to set a register value to 0. For example      
+
+xor eax, eax will 0 the eax register.
+
 Also xor eax, eax prefer over mov eax, 0 because of performance reason.
 
 
@@ -234,6 +241,7 @@ Also xor eax, eax prefer over mov eax, 0 because of performance reason.
 
 In cmp the comparison is performed by subtracting the second operand from the first operand and then setting the status flags in the same manner as the sub instruction.
 Test computes the bit-wise logical and of first operand (source 1 operand) and the second operand (source 2 operand) and sets the SF, ZF, and PF status flags according to the result.
+
 cmp does the subtraction while test does the bitwise AND.
 
 
@@ -247,8 +255,10 @@ No, It is not necessary to have function prologue. It is just used by compiler f
 # What are the most common registry location malware add them self for persistence?
 
 Most common registry key which we need to remember is:
+
 1.	HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run
 2.	HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run //Only for current user
+
 Most of the time analyst use Autoruns tool from Sysinternals for looking at all such registry locations/keys.
 
 
@@ -274,6 +284,7 @@ Most of the time analyst use Autoruns tool from Sysinternals for looking at all 
 # What is process hollowing?
 
 Process hollowing is a technique used by malware in  which a legitimate process is loaded on the system solely to act as a  container for hostile code.
+
 Reference: https://www.youtube.com/watch?v=9L9I1T5QDg4
 
 
@@ -293,6 +304,7 @@ Depends on you.
 # How many hardware breakpoint are available in debuggers?
 
 There are 4 hardware breakpoints available in debugger. The reason why there are only 4 of them is because hardware breakpoint use debug register to store the memory address where breakpoint is set. There are only 8 debug register in Intel x86 -> DR0-DR7 from which only four are used for breakpoint.
+
 1.	DR0-3 = breakpoint registers
 2.	DR4-5 = reserved (unused)
 3.	DR6 = Debug Status Register
@@ -310,6 +322,7 @@ int Instruction is used to cause interrupt. Value 3 in int 3 tells the kernel go
 # In what condition we need to use hardware breakpoint instead of software? Why we use hardware breakpoints on dll's instead of software breakpoint?
 
 Software breakpoint have limitation to be only set breakpoint on code section of the program since it put int 3 instruction. For other memory locations we cannot use software breakpoint.
+
 Other then that if we try to put software breakpoint on any loaded dll's code, then every time we reload the program the breakpoint get removed because the int3 instruction get replace with the original instruction again.
 
 
@@ -432,6 +445,7 @@ There are various objects(structures) part of Windows kernel that  windows use f
 2.	KPCR
 3.	KINTERRUPT
 4.	IRP
+
 Reference: http://www.nixhacker.com/understanding-windows-dkom-direct-kernel-object-manipulation-attacks-eprocess/
 
 
@@ -460,6 +474,7 @@ Having non common sections (like .upx) can give a hint that the executable is pa
 looking at entropy of each section, we can decide if the program is obstructed or not. High entropy(>7) usually implies obstructed section.
 Malware can have obstructed imports or no imports at all, which can give a fair hint that the program is trying to hide its imports.
 Looking at the imports we can guess what are the activities the program is trying to do. For example if we find a normal text editor have imports for functions like winsock2, regopen and CryptoAPI then it can be a fishy program(altough those imports can be used by a total legitimate process also.
+
 Reference: http://cobweb.cs.uga.edu/~liao/PE_Final_Report.pdf
 
 
